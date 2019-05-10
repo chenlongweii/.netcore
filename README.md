@@ -1,2 +1,0 @@
-# .netcore
-.netcore学习
