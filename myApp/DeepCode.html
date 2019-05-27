@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="json2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		let obj = {bar:'1',atr:{par1:['1','2'],par2:['1','2']}};
+    		let objJQ = CopyByJQ(obj);
+    		objJQ.bar = "2";
+    		console.log(objJQ);
+    		let objJson = CopyByJson(obj);
+    		let objDeep = CopyByDeep(obj);
+    	})
+
+    	//深拷贝
+    	function CopyByJQ(obj) {
+    		return $.extend(true, {}, obj);
+    	}
+
+    	//深拷贝
+    	function CopyByJson(obj) {
+    	    return JSON.parse(JSON.stringify(obj))
+    	}
+
+    	//深拷贝
+    	function CopyByDeep(obj) {
+			let objClone = Array.isArray(obj)?[]:{};
+			if(obj && typeof obj==="object"){
+				// for...in 会把继承的属性一起遍历
+				for(let key in obj){
+					// 判断是不是自有属性，而不是继承属性
+					if(obj.hasOwnProperty(key)){
+						//判断ojb子元素是否为对象或数组，如果是，递归复制
+						if(obj[key]&&typeof obj[key] ==="object"){
+							objClone[key] = CopyByDeep(obj[key]);
+						}else{
+							//如果不是，简单复制
+							objClone[key] = obj[key];
+						}
+					}
+				}
+			}
+			return objClone;
+    	}
+
+    	//浅拷贝
+    	function shallowClone(initalObj) {
+			let obj = {};
+			for ( let i in initalObj) {
+				obj[i] = initalObj[i];
+			}
+			return obj;
+    	}
+
+    	//浅拷贝
+    	function CopyByAssign (obj) {
+    		return Object.assign({}, obj);
+    	}
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
